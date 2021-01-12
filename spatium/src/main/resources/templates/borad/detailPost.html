@@ -10,7 +10,6 @@
 		$(function() {
 			$('#insertBtn').click(function() {
 				var userId = [[${session.SID}]]
-				var addId = $('#addId')
 				if (userId == null) {
 					alert('로그인 해주세요');
 					return false;
@@ -20,11 +19,21 @@
 			return true;
 		});
 			
-		$(".addReplyBtn").click(function(){
+			
+		$("#addReplyBtn").click(function(){
 			  var formObj = $("form[name='replyForm']");
  			  formObj.attr("action", "/addReply");
 			  formObj.submit(); 
-			});
+		});
+		
+		$("#modifyReplyBtn").on("click",function(){
+			location.href = "/modifyReplyView?boardIdx=[[${Board.boardIdx}]]"	
+						  + "&currentPageNo=[[${params.currentPageNo}]]"
+						  + "&recordsPerPage=[[${params.recordsPerPage}]]"
+						  + "&searchKeyword=[[${params.searchKeyword}]]"
+						  + "&searchType=[[${params.searchType}]]"
+						  + "$replyIdx"+$(this).attr("data-replyIdx");
+		});
 
 		
 		/*]]>*/
@@ -101,7 +110,14 @@
 					</p>
 					<p>
 						[[${r.replyContents}]]
-					</p>   <br><br>
+					</p>
+					<button id="modifyReplyBtn" class="btn btn-xs btn-warning" 
+					data-replyIdx="${r.replyIdx}" th:if="${session.SID} eq ${r.replyAddId}">수정</button>
+					<!-- <a th:href="|@{/removePost}*{makeQueryString(currentPageNo)}&boardIdx=${Board.boardIdx}|"
+					th:if="${session.SID} eq ${Board.boardAddId}">
+					<button id="removeBtn" type="submit" class="btn btn-danger">삭제</button>
+					</a> -->
+					   <br><br>
 				</li>
 			</ol>
 		</div>
@@ -111,20 +127,19 @@
     <form name="replyForm" method="post">
     	<input type="hidden" id="boardIdx" name="boardIdx" th:value="${Board.boardIdx}" />
     	<input type="hidden" id="boardAddId" name="boardAddId" th:value="${Board.boardAddId}" />
+    	<input type="hidden" name="replyAddId" id="replyAddId"  th:value="${session.SID}" />
 		<input type="hidden" id="currentPageNo" name="currentPageNo" th:value="${params.currentPageNo}">
 		<input type="hidden" id="recordsPerPage" name="recordsPerPage" th:value="${params.recordsPerPage}">
 		<input type="hidden" id="searchKeyword" name="searchKeyword" th:value="${params.searchKeyword}">
 		<input type="hidden" id="searchType" name="searchType" th:value="${params.searchType}">
 		
-		<div>
+		<div th:unless="${session.SID == null}">
 			<label>댓글 내용</label> <br>
-			<textarea rows="10" class="form-control" id="replyContents" name="replyContents" /></textarea> <br>
-			<label>댓글 작성자</label><br>
-			<input type="text" name="replyAddId" id="replyAddId" th:unless="${session.SID == null}" th:value="${session.SID}" readonly="readonly" class="form-control"/>
-		</div>
+			<textarea rows="5" class="form-control" id="replyContents" name="replyContents" /></textarea> <br>
 		  <div>
-		 	 <button type="button" class="addReplyBtn">작성</button>
+		 	 <button type="button" id="addReplyBtn" >작성</button>
 		  </div>
+		</div>
 		
     </form>
 	
