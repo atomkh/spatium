@@ -26,13 +26,11 @@
 			  formObj.submit(); 
 		});
 		
-		$("#modifyReplyBtn").on("click",function(){
-			location.href = "/modifyReplyView?boardIdx=[[${Board.boardIdx}]]"	
-						  + "&currentPageNo=[[${params.currentPageNo}]]"
-						  + "&recordsPerPage=[[${params.recordsPerPage}]]"
-						  + "&searchKeyword=[[${params.searchKeyword}]]"
-						  + "&searchType=[[${params.searchType}]]"
-						  + "$replyIdx"+$(this).attr("data-replyIdx");
+		$("#modifyReplyBtn").click(function(){
+			var replyIdx = $('#modifyReplyEdit').val();
+			$('#modifyReplyEdit'+replyIdx).html(
+					"<textarea id='edit_acontent'></textarea>"
+				);
 		});
 
 		
@@ -108,11 +106,11 @@
 					<p>
 						작성자 : [[${r.replyAddId}]] / 작성날짜 : [[${r.replyAddDate}]]<br>
 					</p>
-					<p>
+					<p id="modifyReplyEdit" th:value="${r.replyIdx}">
 						[[${r.replyContents}]]
 					</p>
 					<button id="modifyReplyBtn" class="btn btn-xs btn-warning" 
-					data-replyIdx="${r.replyIdx}" th:if="${session.SID} eq ${r.replyAddId}">수정</button>
+					th:if="${session.SID} eq ${r.replyAddId}">수정</button>
 					<!-- <a th:href="|@{/removePost}*{makeQueryString(currentPageNo)}&boardIdx=${Board.boardIdx}|"
 					th:if="${session.SID} eq ${Board.boardAddId}">
 					<button id="removeBtn" type="submit" class="btn btn-danger">삭제</button>

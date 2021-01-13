@@ -107,7 +107,7 @@ public class BoradController {
 		model.addAttribute("replysList", replysList);
 		System.out.println("replysList==>>" + replysList);
 		
-		/*boardService.postHitCnt(boardIdx);*/
+		/*boardService.postHitCnt(boardIdx);//조회수 증가 */
 		model.addAttribute("title", "게시글 상세보기");
 		model.addAttribute("Board", board);
 		model.addAttribute("currentPageNo", currentPageNo);
