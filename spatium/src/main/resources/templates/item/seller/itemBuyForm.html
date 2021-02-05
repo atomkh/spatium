@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<th:block layout:fragment="customContent">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<div class="row">
+		<div class="col-md-12 col-sm-12 ">
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>
+						장비 <small> 등록하기 </small>
+					</h2>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<br>
+					<form id="demo-form2" class="form-horizontal form-label-left" th:action="@{/item/seller/addItem}" method="post">
+										<div class="form-group row">
+					<label class="col-form-label col-md-3 col-sm-3 label-align"></label>
+					<div class="col-md-6 col-sm-6 ">
+			<div style="color: red; text-align: right;">* 표시는 필수 입력
+						사항입니다.</div></div></div>
+						<div class="form-group row">
+						
+							<label class="col-form-label col-md-3 col-sm-3 label-align">
+								장비 이름 <span class="required">*</span>
+							</label>
+							<div class="col-md-6 col-sm-6 ">
+								<input type="text" id="itemName" name="itemName"
+									class="form-control"
+									placeholder="장비 이름을 입력해주시기 바랍니다.">
+								<input type = "hidden" th:value = "${code}" name = "code">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-md-3 col-sm-3 label-align">
+								장비 종류 <span class="required">*</span>
+							</label>
+							<div class="col-md-6 col-sm-6 ">
+								<select style="width: 100%; height: 40px;" id = "itemCategory">
+									<option value = "0"> :: 장비 종류 선택 :: </option>
+									<option value = "노트북"> 노트북 </option>
+									<option value = "카메라"> 카메라 </option>
+									<option value = "빔프로젝터"> 빔프로젝터 </option>
+									<option value = "마이크"> 마이크 </option>
+									<option value = "스피커"> 스피커 </option>
+									<option value = "그외기타"> 그 외 기타 </option>
+								</select>
+								<input type = "text" id = "itemCategoryName" name = "itemCategory" style="height: 40px; width: 100%; display: none; margin-top: 10px;" placeholder="종류를 입력해주세요.">
+							</div>
+						</div>						
+						<div class="form-group row">
+							<label class="col-form-label col-md-3 col-sm-3 label-align"
+								style="margin-top: 15px;"> 장비 설명 </label>
+							<div class="col-md-6 col-sm-6 " style="text-align: right;">
+								<span style="color: #aaa;" id="counter">(0
+									/ 최대 500자)</span>
+								<textarea id="itemDetail" name="itemDetail" class="form-control"
+									style="resize: none;" rows="4"
+									placeholder="장비 설명을 입력해주시기 바랍니다."></textarea>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-md-3 col-sm-3 label-align">
+								장비 상태 <span class="required">*</span>
+							</label>
+							<div class="col-md-6 col-sm-6 ">
+								<select style="width: 100%; height: 40px; margin-top: -5px;"
+									id="itemStatus" name="itemStatus">
+									<option value="0">:: 장비 상태 ::</option>
+									<option value="S급"> 구매한지 얼마 되지 않은 최신 상품
+										::::::::::::::::::: S급</option>
+									<option value="A급"> 잔 기스나 조금 스크래치가 있는 정도의 상품 ::: A급
+									</option>
+									<option value="B급"> 몇몇개의 기능이 잘 되지 않는 상품
+										:::::::::::::::::: B급</option>
+									<option value="C급"> 거의 고장난 상태의 상품
+										:::::::::::::::::::::::::::::::::: C급</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-md-3 col-sm-3 label-align">
+								장비 대여 상태 <span class="required">*</span>
+							</label>
+							<div class="col-md-6 col-sm-6 ">
+								<div class="radio" style="padding-top: 5px;">
+									<label class="">
+										<div class="iradio_flat-green" style="position: relative;">
+											<input type="radio" class="flat" name="itemRentalStatus"
+												style="position: absolute; opacity: 0;" value="대여 가능" checked="checked">
+											<ins class="iCheck-helper"
+												style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+										</div> 대여 가능
+									</label> <label class="">
+										<div class="iradio_flat-green" style="position: relative;">
+											<input type="radio" class="flat" name="itemRentalStatus"
+												style="position: absolute; opacity: 0;" value="대여 불가능">
+											<ins class="iCheck-helper"
+												style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+										</div> 대여 불가능
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-form-label col-md-3 col-sm-3 label-align">
+								장비 이미지 </label>
+							<div class="col-md-6 col-sm-6 ">
+								<input id="itemImage" class="form-control" type="file"
+									name="itemImg">
+									<div id="preview"></div>
+							</div>	
+						</div>
+						<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align"></label>
+							<div class="col-md-6 col-sm-6" style="text-align: center;">
+								<input type="submit" class="btn btn-primary"
+									style="width: 100%; height: 50px;" id = "addItem" value="장비 등록 하기">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	
+		$(function() {
+
+			$('#itemCategory').change(function(){
+				
+				if($(this).val() == "그외기타"){
+					$('#itemCategoryName').val("");
+					$('#itemCategoryName').show();
+				}else{
+					$('#itemCategoryName').css("display", "none");
+					$('#itemCategoryName').val($('#itemCategory').val());
+				}
+			});
+			
+			$('#addItem').click(function(){
+				if($('#itemName').val() == ""){
+					alert("장비 이름을 입력해주시기 바랍니다.");
+					$('#itemName').focus();
+					return false;
+				}else if($('#itemCategory').val() == '0'){
+					alert("장비 종류를 선택해주세요.");
+					return false;
+				}else if($('#itemCategoryName').is(":visible") == true && $('#itemCategoryName').val() == ""){
+					alert("장비 종류를 입력해주세요.");
+					return false;
+				}else if($('#itemStatus').val() == "0"){
+					alert("장비 상태를 선택해주시기 바랍니다.");
+					return false;
+				}else{
+					alert("장비 등록에 성공하셨습니다.");
+				}
+			});
+			
+			$('#itemDetail').keyup(function() {
+				var content = $(this).val();
+				$('#counter').html("(" + content.length + " / 최대 500자)");
+
+				if (content.length > 500) {
+					alert("최대 500자까지 입력 가능합니다.");
+					$(this).val(content.substring(0, 500));
+					$('#counter').html("(500 / 최대 500자)");
+				}
+			});
+		});
+		
+		$(function(e){
+			$("input[type='file']").change(function(e){
+				
+				$('#preview').empty();
+				
+				var files = e.target.files;
+				var arr = Array.prototype.slice.call(files);
+				
+				for(var i = 0; i < files.length; i++){
+					if(!checkExtension(files[i].name,files[i].size)){
+						return false;
+					}
+				}
+				preview(arr);
+			});
+		});
+		
+		function checkExtension(fileName,fileSize){
+			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		    var maxSize = 20971520;
+		    
+		      if(fileSize >= maxSize){
+		          alert('파일 사이즈 초과');
+		          $("input[type='file']").val("");  //파일 초기화
+		          return false;
+		        }
+		        
+		        if(regex.test(fileName)){
+		          alert('업로드 불가능한 파일이 있습니다.');
+		          $("input[type='file']").val("");  //파일 초기화
+		          return false;
+		        }
+		        return true;
+		      }
+		
+		function preview(arr){
+			arr.forEach(function(f){
+				
+				var fileName = f.name;
+				if(fileName.length > 10){
+					fileName = fileName.substring(0,7) + "...";
+				}
+				
+				var str = '<div style="display: inline-flex; padding: 10px;"><li>';
+		        str += '<span>'+fileName+'</span><br>';
+				
+		        if(f.type.match('image.*')){
+		        	var reader = new FileReader();
+		        	reader.onload = function(e){
+		        		str += '<img src="'+e.target.result+'" title="'+f.name+'" width=200 height=200 />';
+		                str += '</li></div>';
+		                $(str).appendTo('#preview');
+		        	}
+		        	reader.readAsDataURL(f);
+		        }else{
+		        	str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=200 height=200 />';
+		            $(str).appendTo('#preview');
+		        }
+		        
+			});
+		}
+		
+	</script>
+
+</th:block>
+
+</html>

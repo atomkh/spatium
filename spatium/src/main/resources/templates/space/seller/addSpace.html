@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<th:block layout:fragment="customCss">
+<style type="text/css">
+.btn-group{
+ 	max-width: 800px;
+    display: table;
+}
+</style>
+</th:block>
+<th:block layout:fragment="customContent">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<div class="row">
+
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>
+					공간 <small> 등록하기 </small>
+				</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<form class="form-horizontal form-label-left"
+					th:action="@{/space/seller/spaceListReady}" method="post">
+					<div class="form-group row">
+					<label class="col-form-label col-md-3 col-sm-3 label-align"></label>
+					
+					<div class="col-md-6 col-sm-6 " style="text-align:right; color: red">* 표시는 필수 입력
+						사항입니다.</div></div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							공간 이름 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" id="readySpaceName" name="readySpaceName"
+								class="form-control" placeholder="공간 이름을 입력해주시기 바랍니다.">
+						</div>
+					</div>
+					<div class="form-group row">
+
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							공간 유형 <span class="required">*</span>
+						</label>
+
+						<div class="btn-group form-check" data-toggle="buttons">
+							<th:block th:each="s : ${storeBusiness}">
+								<label class="btn btn-secondary"> <input type="checkbox"
+									class="join-btn" th:value="${s}" th:text="${s}"
+									name="readyStoreBusinessType">
+								</label>
+							</th:block>
+						</div>
+
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							공간 허용 인원수 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input id="readyPeopleNumber" class="form-control col"
+								type="text" name="readyPeopleNumber"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+								placeholder="공간 허용 인원수를 입력해주시기 바랍니다."> 
+								<input type = "hidden" name = "readyStoreCode" th:value = ${storeCode}>
+								<span> 숫자만
+								입력해주시기 바랍니다. </span>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align"
+							style="padding-top: 20px;"> 공간 간략 소개 <span
+							class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<div style="text-align: right;"><span style="color: #aaa;" id="counter">(0
+								/ 최대 20자)</span></div> <input id="readyBriefSpace"
+								class="date-picker form-control" type="text"
+								name="readyBriefSpace" placeholder="공간 간략 소개를 입력해주시기 바랍니다.">
+						</div>
+					</div>
+
+
+					<br>
+					<div class="form-group row">
+
+						<label class="col-form-label col-md-3 col-sm-3 label-align"
+							style="padding-top: 20px;"> 공간 세부 소개 <span
+							class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+						<div style="text-align: right;">
+							<span style="color: #aaa;" id="counter2">(0
+								/ 최대 500자)</span></div>
+							<textarea id="readyDetailSpace" name="readyDetailSpace"
+								class="form-control" style="resize: none;" cols="100" rows="10"
+								placeholder="공간 세부 소개를 입력해주시기 바랍니다."></textarea>
+						</div>
+					</div>
+					
+					
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align"
+							style="padding-top: 25px;"> 공간 태그 
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<div style="text-align: right;" id="ysmci">
+								<span style="color: #aaa;"> 태그는 최대
+								5개까지입니다. </span> 
+								<div class="ysbb">
+										<input type="text" name="readySpaceTag" placeholder="태그명을 입력하세요." class="form-control col" style="margin-bottom: 5px;">
+								</div>
+							</div>
+							<button type="button" class="addBtn btn btn-primary">추가</button>
+							<button type="button" class="removeBtn btn btn-warning">삭제</button>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							공간 대여 가격 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">	
+							<input id="readyRentalPrice" class="form-control col" type="text"
+								name="readyRentalPrice"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+								placeholder="공간 대여 가격을 입력해주시기 바랍니다."> <span> 숫자만
+								입력해주시기 바랍니다. </span>
+						</div><!--  -->
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							영업 시작 시간 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input id="readyStartTime" class="form-control col" type="time"
+								name="readyStartTime">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							영업 종료 시간 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input id="readyCloseTime" class="form-control col" type="time"
+								name="readyCloseTime">
+						</div>
+					</div>
+					<br>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							예약 불가 시작 날짜 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input id="readyExceptionStartDate" class="form-control col"
+								type="date" name="readyExceptionStartDate">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							예약 불가 종료 날짜 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input id="readyExceptionEndDate" class="form-control col"
+								type="date" name="readyExceptionEndDate">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							공간 기본 옵션 </label>
+							<div class="btn-group form-check"  data-toggle="buttons">
+							<label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="TV/프로젝터">
+								TV/프로젝터
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="인터넷/와이파이">
+								인터넷/와이파이
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="복사/인쇄기">
+								복사/인쇄기
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="화이트보드">
+								화이트보드
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="음향/마이크">
+								음향/마이크
+							</label>
+							<label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="취사시설">
+								취사시설
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="음식물반입가능">
+								음식물반입가능
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="주류반입가능">
+								주류반입가능
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="샤워시설">
+								샤워시설
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="주차">
+								주차
+							</label>
+							<label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="금연">
+								금연
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="반려동물 동반 가능">
+								반려동물 동반 가능
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="PC/노트북">
+								PC/노트북
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="의자/테이블">
+								의자/테이블
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="내부화장실">
+								내부화장실
+							</label>
+							<label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="탈의실">
+								탈의실
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="테라스/루프탑">
+								테라스/루프탑
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="공용라운지">
+								공용라운지
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="전신거울">
+								전신거울
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="readySpaceBasicOption" value="바베큐시설">
+								바베큐시설
+							</label>
+							</div>
+
+					</div>
+					<div class="form-group row">
+					<label class="col-form-label col-md-3 col-sm-3 label-align"></label>
+					<div class="col-md-6 col-sm-6 " style="text-align: center;">
+					<input type="submit" class="btn btn-primary" value="공간 등록하기"
+						id="addSpace" style="width: 100%; height: 50px; margin-top: 20px;"></div></div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(function() {
+
+			$('#readyExceptionStartDate, #readyExceptionEndDate')
+					.change(
+							function() {
+								var startDate = $('#readyExceptionStartDate')
+										.val();
+								var endDate = $('#readyExceptionEndDate').val();
+								var startDateArr = startDate.split('-');
+								var endDateArr = endDate.split('-');
+								var startDateCompare = new Date(
+										startDateArr[0],
+										parseInt(startDateArr[1]) - 1,
+										startDateArr[2]);
+								var endDateCompare = new Date(endDateArr[0],
+										parseInt(endDateArr[1]) - 1,
+										endDateArr[2]);
+								console.log(startDateCompare);
+								console.log(endDateCompare);
+
+								if (startDateCompare.getTime() > endDateCompare
+										.getTime()) {
+									alert("예약 날짜 종료 시간보다 예약 날짜 시작시간이 더 클 수 없습니다.");
+									dateStatus = "예약 불가"
+								} else {
+									dateStatus = "예약 가능"
+									return dateStatus;
+								}
+
+							});
+
+			$('#addSpace')
+					.click(
+							function() {
+								if ($('#readySpaceName').val() == "") {
+									alert("공간 이름을 입력해주시길 바랍니다.");
+									$('#readySpaceName').focus();
+									return false;
+								} else if ($('input:checkbox[name="readyStoreBusinessType"]:checked').length == "0") {
+									alert("공간 유형을 선택해주시길 바랍니다.");
+									return false;
+								} else if ($('#readyPeopleNumber').val() == "") {
+									alert("공간 허용 인원수를 입력해주시기 바랍니다.");
+									$('#readyPeopleNumber').focus();
+									return false;
+								} else if ($('#readyBriefSpace').val() == "") {
+									alert("공간 간략소개를 입력해주시기 바랍니다.");
+									$('#readyBriefSpace').focus();
+									return false;
+								} else if ($('#readyDetailSpace').val() == "") {
+									alert("공간 세부소개를 입력해주시기 바랍니다.");
+									$('#readyDetailSpace').focus();
+									return false;
+								} else if ($('#readyRentalPrice').val() == "") {
+									alert("공간 대여가격을 입력해주시기 바랍니다.");
+									$('#readyRentalPrice').focus();
+									return false;
+								} else if ($('#readyStartTime').val() == "") {
+									alert("공간 영업 시작 시간을 입력해주시기 바랍니다.");
+									$('#readyStartTime').focus();
+									return false;
+								} else if ($('#readyCloseTime').val() == "") {
+									alert("공간 영업 종료 시간을 입력해주시기 바랍니다.");
+									$('#readyCloseTime').focus();
+									return false;
+								} else if ($('#readyExceptionStartDate').val() == "") {
+									alert("공간 예약 불가 시작 날짜를 입력해주시기 바랍니다.");
+									$('#readyExceptionStartDate').focus();
+									return false;
+								} else if ($('#readyExceptionEndDate').val() == "") {
+									alert("공간 예약 불가 종료 날짜를 입력해주시기 바랍니다.");
+									$('#readyExceptionEndDate').focus();
+									return false;
+								} else if (dateStatus == "예약 불가") {
+									alert("예약 불가 날짜를 확인해주시기 바랍니다.");
+									$('#readyExceptionEndDate').focus();
+									return false;
+								} else {
+									alert("공간 등록에 성공하셨습니다.");
+									return true;
+								}
+							});
+
+			$('#readyBriefSpace').keyup(function() {
+				var content = $(this).val();
+				$('#counter').html("(" + content.length + " / 최대 20자)");
+
+				if (content.length > 20) {
+					alert("최대 20자까지 입력 가능합니다.");
+					$(this).val(content.substring(0, 20));
+					$('#counter').html("(20 / 최대 20자)");
+				}
+			});
+
+			$('#readyDetailSpace').keyup(function() {
+				var content2 = $(this).val();
+				$('#counter2').html("(" + content2.length + " / 최대 500자)");
+
+				if (content2.length > 500) {
+					alert("최대 500자까지 입력 가능합니다.");
+					$(this).val(content2.substring(0, 500));
+					$('#counter2').html("(500 / 최대 500자)");
+				}
+			});
+
+			$(document).on('click', '.addBtn', function() {
+				var len = $(this).parent().find('#ysmci').children().eq(1).children().length;
+				var clone = $(this).parent().find('#ysmci').children().eq(1).children().eq(0).clone();
+				clone.val('');
+				if (len >= 5) {
+					alert('더 이상 생성하실 수 없습니다.');
+				} else {
+					$(this).parent().find('.ysbb').append(clone);
+				}
+			});
+
+			$(document).on('click', '.removeBtn', function() {
+				var len = $(this).parent().find('#ysmci').children().eq(1).children().length;
+				if (len > 1) {
+					$(this).parent().find('.ysbb').children().last().remove();
+				} else {
+					alert('더 이상 삭제 하실 수 없습니다.');
+				}
+			});
+
+		});
+	</script>
+
+</th:block>
+
+</html>

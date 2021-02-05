@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<th:block layout:fragment="customTitle">
+	<title th:text="${title}"></title>
+</th:block>
+
+<th:block layout:fragment="customCss">
+	<style>
+.hid {
+	display: none;
+}
+
+.btn-group{
+ 	max-width: 800px;
+    display: table;
+}
+</style>
+</th:block>
+<th:block layout:fragment="customContent">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<div class="row">
+
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>어떤 공간을 공유하세요?</h2>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+			
+				<form id="addStoreForm" class="form-horizontal form-label-left"
+					th:action="@{/space/seller/addSpace}" method="post" enctype="multipart/form-data">
+					<div class="form-group row">
+					<label class="col-form-label col-md-3 col-sm-3 label-align"></label>
+					<div class="col-md-6 col-sm-6 ">
+			<div style="color: red; text-align: right;">* 표시는 필수 입력
+						사항입니다.</div></div></div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							사업자 아이디 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" id="storeId" class="form-control"
+								name="storeId">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							상호명 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" id="storeName" class="form-control"
+								name="storeName" placeholder="상호명을 입력해주시기 바랍니다.">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							대표자명 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" id="storeRepresentative" class="form-control"
+								name="storeRepresentative" placeholder="대표자명을 입력해주시기 바랍니다.">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							사업자 번호 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" placeholder="사업자 번호를 입력해주시기 바랍니다."
+								id="storeNumber" class="form-control" name="storeNumber"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<span> 숫자만 입력해주시기 바랍니다. </span>
+												<div style="text-align: right;">
+						<span> 업체 유형은 최소 1개에서 5개까지 선택할 수 있으며, 후에 변경하실 수 없으니 유의하시기
+							바랍니다. </span>
+					</div>
+						</div>
+					</div>
+
+					<div class="form-group row">
+
+						<label for="middle-name"
+							class="col-form-label col-md-3 col-sm-3 label-align"> 업체
+							유형 <span class="required">*</span>
+						</label>
+						<div class="btn-group form-check" data-toggle="buttons">
+							<label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="촬영 스튜디오">
+								<span style="font-size: 12px;">촬영 스튜디오</span>
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="엠티장소">
+								엠티장소
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="스터디룸">
+								스터디룸
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="연습실">
+								연습실
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="파티룸">
+								파티룸
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="회의실">
+								회의실
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="카페"> 카페
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="다목적홀">
+								다목적홀
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="공연장">
+								공연장
+							</label> <label class="btn btn-secondary"> <input type="checkbox"
+								class="join-btn" name="storeBusinessType" value="한옥"> 한옥
+							</label>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label
+							class="col-form-label col-md-3 col-sm-3 label-align"> 업체
+							주소 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" id="sample6_postcode"
+								name="storeAddressNumber" placeholder="우편번호" readonly="readonly"
+								class="form-control" style="margin-bottom: 10px;"> <input
+								type="text" id="sample6_address" name="storeAddress"
+								placeholder="주소" readonly="readonly" class="form-control"
+								style="margin-bottom: 10px;"> <input type="text"
+								id="sample6_extraAddress" name="storeAddress1"
+								placeholder="참고항목" readonly="readonly" class="form-control"
+								style="margin-bottom: 10px;"> <input type="text"
+								id="sample6_detailAddress" name="storeAddressDetail"
+								placeholder="상세주소" class="form-control">
+								<div style="text-align: center;">
+								 <input
+								type="button" onclick="sample6_execDaumPostcode()"
+								value="우편번호 찾기" readonly="readonly" class="btn btn-success"
+								style="margin-top: 20px; width: 100%;">
+								</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align"
+							style="margin-top: 20px;"> 업체 소개 </label>
+						<div class="col-md-6 col-sm-6" style="text-align: right;">
+							<span style="color: #aaa;" id="counter2">(0
+								/ 최대 500자)</span>
+							<textarea id="storeIntroduction" name="storeIntroduction"
+								class="form-control" style="resize: none;" cols="100" rows="10"
+								placeholder="업체 소개를 입력해주시기 바랍니다."></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label
+							class="col-form-label col-md-3 col-sm-3 label-align"> 업체
+							이메일 </label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" id="storeEmail" class="form-control"
+								name="storeEmail" placeholder="업체 이메일을 입력해주시기 바랍니다.">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label
+							class="col-form-label col-md-3 col-sm-3 label-align"> 결제
+							방식 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<select style="width: 100%; height: 40px;"
+								id="storeRsvType" name="storeRsvType">
+								<option value="0">:: 결제 방식 선택 ::</option>
+								<option value="일">일 결제</option>
+								<option value="시간">시간 결제</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align"> 업체
+							연락처 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="text" id="storePhone" class="form-control"
+								placeholder="업체 연락처를 입력해주시기 바랍니다." name="storePhone"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<span> 숫자만 입력해주시기 바랍니다. </span>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-form-label col-md-3 col-sm-3 label-align">
+							사업자 계좌번호 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<select id="storeAccountBankName" name="storeAccountBankName" style="width: 100%; height:30px; margin-bottom: 15px;">
+								<option value="0">:: 은행 선택 ::</option>
+								<option value="BNP">BNP</option>
+								<option value="BOA">BOA</option>
+								<option value="HSBC">HSBC</option>
+								<option value="IBK기업">IBK기업</option>
+								<option value="JP모간">JP모간</option>
+								<option value="SC제일">SC제일</option>
+								<option value="경남">경남</option>
+								<option value="광주">광주</option>
+								<option value="국민">국민</option>
+								<option value="농협">농협</option>
+								<option value="대구">대구</option>
+								<option value="도이치">도이치</option>
+								<option value="부산">부산</option>
+								<option value="산림조합">산림조합</option>
+								<option value="산업">산업</option>
+								<option value="새마을">새마을</option>
+								<option value="수협">수협</option>
+								<option value="신한">신한</option>
+								<option value="신협">신협</option>
+								<option value="씨티">씨티</option>
+								<option value="우리">우리</option>
+								<option value="우체국">우체국</option>
+								<option value="저축은행">저축은행</option>
+								<option value="전북">전북</option>
+								<option value="제주">제주</option>
+								<option value="중국공상">중국공상</option>
+								<option value="카카오뱅크">카카오뱅크</option>
+								<option value="케이뱅크">케이뱅크</option>
+								<option value="하나은행">하나은행</option>
+							</select> <input type="text" id="storeAccountNumber"
+								placeholder="사업자 계좌번호를 입력해주시기 바랍니다." name="storeAccountNumber"
+								class="form-control"
+								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+							<span> 숫자만 입력해주시기 바랍니다. </span>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="middle-name"
+							class="col-form-label col-md-3 col-sm-3 label-align"> 환불
+							정책 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<table border="1" style="width: 100%;">
+								<thead>
+									<tr style="width: 100%">
+										<th style="text-align: center;">예약까지남은일수</th>
+										<th style="text-align: center;">환불퍼센트</th>
+										<th style="text-align: center;">생성 및 제거</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr style="width: 100%">
+										<td>이용 
+											<input type="text" name="remainingDay" class="a form-control"
+											oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">일전
+										</td>
+										<td>총금액의
+											<input type="text" name="refundPercent" class="b form-control"
+											oninput="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');">%
+										</td>
+										<td style="text-align: center;">
+											<button type="button" class="addBtn" >추가</button>
+											<button type="button" class="removeBtn"  >삭제</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<span> 숫자만 입력해주시기 바랍니다. </span>
+							<div>
+								<span> 당일 환불과 퍼센트는 0일, 0%로 표현 </span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="middle-name"
+							class="col-form-label col-md-3 col-sm-3 label-align"> 업체
+							이미지 <span class="required">*</span>
+						</label>
+						<div class="col-md-6 col-sm-6 ">
+							<input type="file" id="storeImage" class="form-control"
+								name="proBgImage">
+								<div id="preview"></div>
+						</div>
+						
+					</div>
+					<div class="form-group row">
+					<label class="col-form-label col-md-3 col-sm-3 label-align"></label>
+						<div class="col-md-6 col-sm-6" style="text-align: center;">
+							<input type="submit" class="btn btn-primary" value="업체 등록 하기"
+								id="addStore"
+								style="width: 100%; height: 50px; margin-top: 20px;">
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	
+		$(function() {
+			$('#addStore')
+					.click(
+							function() {
+								
+								if ($('#storeName').val() == "") {
+									alert("상호명을 입력해주시길 바랍니다.");
+									$('#storeName').focus();
+									return false;
+								} else if ($('#storeRepresentative').val() == "") {
+									alert("대표자명을 입력해주시길 바랍니다.");
+									$('#storeRepresentative').focus();
+									return false;
+								} else if ($('#storeNumber').val() == "") {
+									alert("사업자 번호를 입력해주시길 바랍니다.");
+									$('#storeNumber').focus();
+									return false;
+								} else if ($('input:checkbox[name="storeBusinessType"]:checked').length == "0"
+										|| $('input:checkbox[name="storeBusinessType"]:checked').length > "5") {
+									alert("업체 유형의 갯수를 제대로 확인하시고 선택해주시기 바랍니다.");
+									return false;
+								} else if ($('#sample6_postcode').val() == "") {
+									alert("주소를 입력해주시길 바랍니다.");
+									$('#storeAddress').focus();
+									return false;
+								} else if ($('#storeRsvType').val() == "0") {
+									alert("결제 방식을 선택해주시기 바랍니다.");
+									return false;
+								} else if ($('#storePhone').val() == "") {
+									alert("업체 연락처를 입력해주시길 바랍니다.");
+									$('#storePhone').focus();
+									return false;
+								} else if ($('#storeAccountBankName').val() == "0") {
+									alert("은행을 선택해주시기 바랍니다.");
+									$('#storeAccountNumber').focus();
+									return false;
+								} else if ($('#storeAccountNumber').val() == "") {
+									alert("사업자 계좌번호를 입력해주시길 바랍니다.");
+									$('#storeAccountNumber').focus();
+									return false;
+								} else if ($('.storeRemainingDay').val() == "") {
+									alert("환불 일자를 입력해주시기 바랍니다.");
+									$('.storeRemainingDay').focus();
+									return false;
+								} else if ($('.storeRefundPercent').val() == "") {
+									alert("환불 퍼센트를 입력해주시기 바랍니다.");
+									$('.storeRefundPercent').focus();
+									return false;
+								} else if ($('#storeImage').val() == "") {
+									alert("업체 이미지를 등록해주시길 바랍니다.");
+									return false;
+								} else {
+
+									var checkArray = Array();
+									$("input[name=storeBusinessType]:checked")
+											.each(function() {
+												checkArray.push($(this).val());
+											});
+
+									/* var tableLength = $('[name="remainingDay"]').length;
+									var refundPolicyList = new Array();
+									var datas = new Object();
+									var totData = new Object();
+
+									for (var i = 0; i < tableLength; i++) {
+										datas = new Object();
+										datas.refundPolicyStoreCode = $(
+												'[name="refundPolicyStoreCode"]')
+												.val();
+										datas.refundPolicyUserId = $(
+												'[name="refundPolicyUserId"]')
+												.val();
+										datas.remainingDay = $(
+												'[name="remainingDay"]').eq(i)
+												.val();
+										datas.refundPercent = $(
+												'[name="refundPercent"]').eq(i)
+												.val();
+										refundPolicyList.push(datas);
+									}
+									if (datas.remainingDay == '') {
+										alert('값을 입력해주세요.');
+										return false;
+									}
+									if (datas.refundPercent == '') {
+										alert('값을 입력해주세요.');
+										return false;
+									}
+									totData["refundPolicyList"] = refundPolicyList;
+
+									console.log(totData);
+
+									$.ajax({
+										type : "POST",
+										url : '/refundPolicy',
+										dataType : "text", //리턴받았을때 타입
+										contentType : "application/json",
+										data : JSON.stringify(totData),
+										success : function(data) {
+											//	location.href= data;         
+										},
+										error : function() {
+											alert('숫자 값만 입력해주세요.');
+										}
+									}); */
+
+									alert("업체 등록에 성공하셨습니다.");
+									return checkArray;
+								}
+							});
+
+			$('.a').change(function() {
+				var day = $('.a').val();
+				if (day > 10) {
+					$(this).val(0);
+					alert('10일 전 까지만 가능합니다.');
+
+				}
+			});
+			$('.b').change(function() {
+				var percent = $('.b').val();
+				if (percent > 100) {
+					$(this).val(0);
+					alert('100까지만  입력 가능합니다.');
+
+				}
+
+			});
+			$(document).on('click', '.addBtn', function() {
+				var clone = $(this).parents('tr').clone();
+				//복제된 대상의 input 박스를 찾아 값을 초기화
+				clone.find('input').val('');
+				//복제된 대상을 tbody에 삽입하기
+				$(this).parents('tbody').append(clone);
+				console.log($('.a').length);
+
+				$('.a').change(function() {
+					for (var i = 0; i < $('.a').length; i++) {
+						var day = $('.a').eq(i).val();
+						if (day > 10) {
+							$(this).val(0);
+							alert('10일 전 까지만 가능합니다.');
+							return;
+						}
+					}
+				});
+				$('.b').change(function() {
+					for (var i = 0; i < $('.b').length; i++) {
+						var percent = $('.b').eq(i).val();
+						if (percent > 100) {
+							$(this).val(0);
+							alert('100까지만  입력 가능합니다.');
+							return;
+						}
+					}
+				});
+
+			});
+
+			$(document).on('click', '.removeBtn', function() {
+				var len = $(this).parents('tbody').find('tr').length;
+				if (len > 1) {
+					$(this).parents('tr').remove();
+				} else {
+					alert('더이상 삭제 하실 수 없습니다');
+				}
+			});
+
+			$('#storeIntroduction').keyup(function() {
+				var content2 = $(this).val();
+				$('#counter2').html("(" + content2.length + " / 최대 500자)");
+
+				if (content2.length > 500) {
+					alert("최대 500자까지 입력 가능합니다.");
+					$(this).val(content2.substring(0, 500));
+					$('#counter2').html("(500 / 최대 500자)");
+				}
+			});
+		});
+		
+			$(function(e){
+				$("input[type='file']").change(function(e){
+					
+					$('#preview').empty();
+					
+					var files = e.target.files;
+					var arr = Array.prototype.slice.call(files);
+					
+					for(var i = 0; i < files.length; i++){
+						if(!checkExtension(files[i].name,files[i].size)){
+							return false;
+						}
+					}
+					preview(arr);
+				});
+			});
+			
+			function checkExtension(fileName,fileSize){
+				var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+			    var maxSize = 20971520;
+			    
+			      if(fileSize >= maxSize){
+			          alert('파일 사이즈 초과');
+			          $("input[type='file']").val("");  //파일 초기화
+			          return false;
+			        }
+			        
+			        if(regex.test(fileName)){
+			          alert('업로드 불가능한 파일이 있습니다.');
+			          $("input[type='file']").val("");  //파일 초기화
+			          return false;
+			        }
+			        return true;
+			      }
+			
+			function preview(arr){
+				arr.forEach(function(f){
+					
+					var fileName = f.name;
+					if(fileName.length > 10){
+						fileName = fileName.substring(0,7) + "...";
+					}
+					
+					var str = '<div style="display: inline-flex; padding: 10px;"><li>';
+			        str += '<span>'+fileName+'</span><br>';
+					
+			        if(f.type.match('image.*')){
+			        	var reader = new FileReader();
+			        	reader.onload = function(e){
+			        		str += '<img src="'+e.target.result+'" title="'+f.name+'" width=200 height=200 />';
+			                str += '</li></div>';
+			                $(str).appendTo('#preview');
+			        	}
+			        	reader.readAsDataURL(f);
+			        }else{
+			        	str += '<img src="/resources/img/fileImg.png" title="'+f.name+'" width=200 height=200 />';
+			            $(str).appendTo('#preview');
+			        }
+			        
+				});
+			}
+			
+		function sample6_execDaumPostcode() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+							// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var addr = ''; // 주소 변수
+							var extraAddr = ''; // 참고항목 변수
+
+							//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+							if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+								addr = data.roadAddress;
+							} else { // 사용자가 지번 주소를 선택했을 경우(J)
+								addr = data.jibunAddress;
+							}
+
+							// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+							if (data.userSelectedType === 'R') {
+								// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+								// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+								if (data.bname !== ''
+										&& /[동|로|가]$/g.test(data.bname)) {
+									extraAddr += data.bname;
+								}
+								// 건물명이 있고, 공동주택일 경우 추가한다.
+								if (data.buildingName !== ''
+										&& data.apartment === 'Y') {
+									extraAddr += (extraAddr !== '' ? ', '
+											+ data.buildingName
+											: data.buildingName);
+								}
+								// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+								if (extraAddr !== '') {
+									extraAddr = ' (' + extraAddr + ')';
+								}
+								// 조합된 참고항목을 해당 필드에 넣는다.
+								document.getElementById("sample6_extraAddress").value = extraAddr;
+
+							} else {
+								document.getElementById("sample6_extraAddress").value = '';
+							}
+
+							// 우편번호와 주소 정보를 해당 필드에 넣는다.
+							document.getElementById('sample6_postcode').value = data.zonecode;
+							document.getElementById("sample6_address").value = addr;
+							// 커서를 상세주소 필드로 이동한다.
+							document.getElementById("sample6_detailAddress")
+									.focus();
+						}
+					}).open();
+		}
+	</script>
+
+</th:block>
+
+</html>

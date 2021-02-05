@@ -54,11 +54,14 @@
 							<li th:if="${session.SLEVEL=='1'}"><a href="/review/admin/reviewAll">전체 리뷰 관리-shy</a></li>
 							<li><a href="/review/seller/reviewStore">내 매장 리뷰-shy</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/store/admin/addStore">업체 등록-ys</a></li>
+							<li><a th:if="${session.SLEVEL=='2'}" href="/store/seller/addStore">업체 등록-ys</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/store/admin/storeListOK">업체 목록-ys</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/space/admin/addSpaceChoice">공간 등록-ys</a></li>
+							<li><a th:if="${session.SLEVEL=='2'}" href="/space/seller/addSpaceChoice">공간 등록-ys</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/space/admin/spaceListReady">공간 승인 대기-ys</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/space/admin/spaceListOK">공간 승인 완료-ys</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/item/admin/addItemChoice">장비 등록-ys</a></li>
+							<li><a th:if="${session.SLEVEL=='2'}" href="/item/seller/addItemChoice">장비 등록-ys</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/item/admin/itemList">장비 목록-ys</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/item/admin/itemBuyList">장비 구입 목록-kay</a></li>
 							<li><a th:if="${session.SLEVEL=='1'}" href="/item/admin/itemDeleteList">장비 파기 목록-kay</a></li>

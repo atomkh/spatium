@@ -298,6 +298,23 @@ public class ItemController {
 	}
 
 	//장비등록
+	@PostMapping("/item/seller/addItem")
+	public String addMyItem(Model model, Item item, HttpSession session, Store store
+			,@RequestParam(name = "code", required = false) int code) {
+		System.out.println(item + "=========== 장비 넘어온 값 ============");
+		String sessionId = (String) session.getAttribute("SID");
+		System.out.println(sessionId);
+		item.setItemDetailUserId(sessionId);
+		System.out.println(code + "포스트 맵핑 장비등록 스토어코드");
+		item.setStoreDetailCode(code);
+		String result = itemService.addItem(item);
+		
+		System.out.println(result);
+		
+		return "redirect:/admin";
+	}
+	
+	//장비등록
 	@PostMapping("/item/admin/addItem")
 	public String addItem(Model model, Item item, HttpSession session, Store store
 							,@RequestParam(name = "code", required = false) int code) {
@@ -314,6 +331,21 @@ public class ItemController {
 		return "redirect:/item/admin/itemList";
 	}
 
+	@GetMapping("/item/seller/addItem")
+	public String addMyItem(Model model, Item item
+			,@RequestParam(name = "storeCode", required = false) int storeCode) {
+		
+		System.out.println(storeCode);
+		item.setStoreDetailCode(storeCode);
+		int code = item.getStoreDetailCode();
+		System.out.println(code);
+		model.addAttribute("code", code);
+		
+		model.addAttribute("title", "장비 등록 하기");
+		
+		return "item/seller/itemBuyForm";
+	}
+	
 	@GetMapping("/item/admin/addItem")
 	public String addItem(Model model, Item item
 			,@RequestParam(name = "storeCode", required = false) int storeCode) {
@@ -339,6 +371,19 @@ public class ItemController {
 		return "item/admin/itemInfo";
 	}
 
+	@GetMapping("/item/seller/addItemChoice")
+	public String addMyItemChoice(Model model, HttpSession session) {
+		
+		String storeId = (String) session.getAttribute("SID");
+		
+		List<Store> itemList = itemService.addItemChoice(storeId);
+		
+		model.addAttribute("title", "장비 등록");
+		model.addAttribute("itemList", itemList);
+		
+		return "item/seller/itemBuyChoice";
+	}
+	
 	@GetMapping("/item/admin/addItemChoice")
 	public String addItemChoice(Model model, HttpSession session) {
 

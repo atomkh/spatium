@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+		<title th:text="${title}"></title>
+</th:block>
+
+<th:block layout:fragment="customContent">
+
+<div class="x_panel">
+                  <div class="x_title">
+                    <h2> 공간 등록할 업체를 선택해주세요. </h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="row">
+                          <div class="col-sm-12">
+                            <div class="card-box table-responsive">
+                    <div id="datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap no-footer">
+                    <div class="row">
+                    </div>
+                    <div class="row"><div class="col-sm-12"><table id="tbSpaceChoice" class="table table-striped jambo_table bulk_action dataTable no-footer" style="width:100%" role="grid" aria-describedby="datatable_info">
+                      <thead>
+                        <tr role="row">
+                        <th class="sorting" style="text-align: center;"> 업체 코드 </th>
+                        <th class="sorting" style="text-align: center;"> 상호명 </th>
+                        <th class="sorting" style="text-align: center;"> 대표자명 </th>
+                        <th class="sorting" style="text-align: center;"> 사업자 번호 </th>
+                        <th class="sorting" style="text-align: center;"> 업체 주소 </th>
+                        <th class="sorting" style="text-align: center;"> 업체 연락처 </th>
+                        <th class="sorting" style="text-align: center;"> 사업자 계좌번호 </th>
+                        <th class="sorting" style="text-align: center;"> 환불 정책 </th>
+                        <th class="sorting" style="text-align: center;"> 업체 레벨 </th>
+                        </tr>
+                      </thead>
+
+
+            <tbody>
+			<th:block th:each = "s : ${spaceChoice}">
+				<tr class = "spaceTr">
+					<td style="text-align: center;" th:text = "${s.storeCode}"> </td>
+					<td style="text-align: center;" th:text = "${s.storeName}"> </td>
+					<td style="text-align: center;" th:text = "${s.storeRepresentative}"></td>
+					<td style="text-align: center;" th:text = "${s.storeNumber}"></td>
+					<td style="text-align: center;" th:text = "${s.storeAddress}"></td>
+					<td style="text-align: center;" th:text = "${s.storePhone}"></td>
+					<td style="text-align: center;" th:text = "${s.storeAccountNumber}"></td>
+					<td style="text-align: center;" th:text = "${s.storeRefundRull}"></td>
+					<td style="text-align: center;" th:text = "${s.storeLevel}"></td>
+				</tr>
+			</th:block>
+		</tbody>
+                    </table>
+                    </div></div></div>
+                  </div>
+                  </div>
+              </div>
+            </div>
+                </div>
+
+</th:block>
+
+<th:block layout:fragment="customJs">
+
+<script>
+	
+	$('#tbSpaceChoice').find('.spaceTr').click(function(){
+		var code = $(this).children().first().text();
+		location.href="/space/seller/addSpace?storeCode="+code;
+	});
+
+	$("#tbSpaceChoice").DataTable({
+		order: [ [ 0, "desc" ] ],
+		ordering: true,
+		lengthChange: false,
+		"dom": 'fltip',
+		"language": {
+			         "info": "페이지 _PAGE_ of _PAGES_",
+		        	 "paginate": {
+						        	 "first": "첫페이지",
+						        	 "last": "마지막",
+						             "previous": "이전",
+						             "next":"다음"
+						           },
+		        	 "sEmptyTable": "No data available in table",
+		        	 "sInfoEmpty": "Showing 0 to 0 of 0 entries",
+		        	 "sInfoFiltered": "(filtered from _MAX_ total entries)",
+		        	 "sInfoPostFix": "",
+		        	 "sLengthMenu": "Show _MENU_ 개씩",
+		        	 "sSearch": "검색:",
+		        	 "sSearchPlaceholder": "",
+		        	 "sZeroRecords": "No matching records found"
+			         }
+	});
+	
+	</script>
+
+</th:block>
+
+</html>
