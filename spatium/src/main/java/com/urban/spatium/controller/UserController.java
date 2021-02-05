@@ -3,6 +3,7 @@ package com.urban.spatium.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import com.urban.spatium.dto.User;
 import com.urban.spatium.service.UserService;
 
